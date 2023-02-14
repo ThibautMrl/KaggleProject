@@ -1,0 +1,8 @@
+# Kaggle Project
+
+Importation de la base de données :
+
+```{r}
+student<- read.csv('student-mat.csv')
+```
+
