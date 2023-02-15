@@ -1,8 +1,77 @@
 # Kaggle Project
 
+#Question Globale :
+#Business Goal 
+#Quelles est l'impact de notre environement social (parent , oseille , education ) sur  les resultats  scolaires ? L'objectif est de mettre en avant l'impact du contexte familial sur les resultats scolaire . 
+
+
+#Plan 
+
+#analyse , description du data (mean , variance, fille garcon, etc )
+
+#Blabla sur etude analyse de data,age fille , proportion fille garcon etc mais on ne rentre pas dans le details de ce 
+#que l'on veut faire dans la seconde partie   
+
+#choisis les collones voulues (R extraction ) 
+
+#description des futures analyse (regresion lineaire , )
+
+
+
+
+# 1 On va etudier si notre data base est conforme (jsp ce quil avait dit de faire ici avec la conformite de la database ).
+
 Importation de la base de données :
 
 ```{r}
 student<- read.csv('student-mat.csv')
+```
+
+
+#On etudie l'age  des fille et des garcons dans la population totale .
+
+```{r}
+
+install.packages("ggplot2")
+library(ggplot2)
+age= ggplot(aes(x=age), data=student)+
+  geom_histogram(binwidth = 0.50, fill='darkred', color='black')+
+  ggtitle("Age of students")
+age
+
+mean(student$age)
+```
+
+
+#On etudie le nombre de fille et de garcons dans la population totale 
+
+```{r}
+table(student$sex)
+gender= ggplot(data=student,aes(x=sex,fill=sex))+geom_bar()
+gender
+```
+#On etudie la sante des étudinats 
+
+```{r}
+table(student$health)
+health= ggplot(data=student,aes(x=health,fill=sex))+geom_histogram(binwidth=0.5, fill='salmon')
+health
+```
+#We can see that the majority of the students are in good health
+
+
+```{r}
+var(student$G1)
+ages= ggplot(data=student,aes(x=age, fill=sex))+geom_histogram(binwidth=0.50)
+ages
+```
+
+
+#A utiliser plutot dans la seconde partie en lien avec le contexte social 
+
+```{r}
+area= ggplot(student, aes(x=address)) +
+    geom_bar(fill='orchid')
+area 
 ```
 
