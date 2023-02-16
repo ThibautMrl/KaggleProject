@@ -25,8 +25,8 @@ Importation de la base de données et installation des package:
 
 ```{r}
 student<- read.csv('student-mat.csv')
-install.packages("ggplot2")
-install.packages("dplyr")
+#install.packages("ggplot2")
+#install.packages("dplyr")
 library(ggplot2)
 library(dplyr)
 ```
@@ -77,10 +77,17 @@ print("proportion de garçon : ");sum(student$sex=="M")/n_student
 #On etudie la sante des étudinats 
 
 ```{r}
-table(student$health)
 health= ggplot(data=student,aes(x=health,fill=sex))+geom_histogram(binwidth=0.5, fill='salmon')
 health
 ```
+```{r}
+print("la santé moyenne des étudiants est : "); mean(student$health)
+print("la variance de la santé des étudiants est : "); var(student$health)
+print("la medianne de la santé des étudiants est : "); median(student$health)
+print("Pourcentage d'étudiant en bonne santé");sum(student$health>=3)/n_student
+
+```
+
 #We can see that the majority of the students are in good health
 
 
@@ -97,5 +104,11 @@ ages
 area= ggplot(student, aes(x=address)) +
     geom_bar(fill='orchid')
 area 
+```
+La table que nous allons utiliser :
+
+```{r}
+sFam <- student %>% select(famsize,Pstatus,Medu,Fedu,Mjob,Fjob,reason,famsup,famrel,G1,G2,G3)
+sFam
 ```
 
