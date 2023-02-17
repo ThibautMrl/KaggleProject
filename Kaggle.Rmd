@@ -1,4 +1,5 @@
 # Kaggle Project
+# Kaggle Project
 
 #Question Globale :
 #Business Goal 
@@ -25,18 +26,20 @@ Importation de la base de données et installation des package:
 
 ```{r}
 student<- read.csv('student-mat.csv')
+
 #install.packages("ggplot2")
-#install.packages("dplyr")
 #install.packages("party")
 #install.packages("rsample")
-library(rsample)
+#library(rsample)
+
 library(ggplot2)
 library(dplyr)
 library(party)
+library(rsample)
 ```
 
 
-#On etudie l'age  des fille et des garcons dans la population totale .
+On etudie l'age  des fille et des garcons dans la population totale .
 
 ```{r}
 n_student = nrow(student) #nb d'etudiant
@@ -52,7 +55,8 @@ print("la variance de l'age des étudiants est : "); var(student$age)
 print("la medianne de l'age des étudiants est : "); median(student$age)
 ```
 
-#Les écoles:
+Les écoles:
+
 ```{r}
 student %>% distinct(school)
 ```
@@ -67,7 +71,7 @@ sum(student$school=="GP")/n_student
 ```
 
 
-#On etudie le nombre de filles et de garcons dans la population totale 
+On etudie le nombre de filles et de garcons dans la population totale :
 
 ```{r}
 gender= ggplot(data=student,aes(x=sex,fill=sex))+geom_bar()
@@ -78,7 +82,7 @@ print("proportion de fille : ");sum(student$sex=="F")/n_student
 print("proportion de garçon : ");sum(student$sex=="M")/n_student
 ```
 
-#On etudie la sante des étudinats 
+On étudie la santé des étudiants :
 
 ```{r}
 health= ggplot(data=student,aes(x=health,fill=sex))+geom_histogram(binwidth=0.5, fill='salmon')
@@ -92,25 +96,36 @@ print("Pourcentage d'étudiant en bonne santé");sum(student$health>=3)/n_studen
 
 ```
 
-#We can see that the majority of the students are in good health
+We can see that the majority of the students are in good health
 
+
+
+
+On étudie l'age des étudiants 
 
 ```{r}
-var(student$G1)
 ages= ggplot(data=student,aes(x=age, fill=sex))+geom_histogram(binwidth=0.50)
 ages
 ```
 
+Comme le montre clairement le graphique ci-dessus, la plupart des étudiants de plus de 18 ans sont des étudiants de sexe masculin, car il n'y a pas d'étudiantes de plus de 20 ans.
 
-#A utiliser plutot dans la seconde partie en lien avec le contexte social 
+
+On étudie le milieu urbain/rural des étudiants 
 
 ```{r}
 area= ggplot(student, aes(x=address)) +
     geom_bar(fill='orchid')
 area 
 ```
+Comme on le voit clairement ci-dessus, la plupart des étudiants vivent dans des zones urbaines
+
 Classification :
 https://veroniquetremblay.github.io/analyse_de_donnees_et_apprentissage_statistique_en_R/arbres-et-forets-aleatoires.html
+
+
+
+La table que nous allons utiliser pour mettre en relation les resultats scolaires et l'aspect social :
 
 ```{r}
 student <- student %>% select(address,famsize,Pstatus,Medu,Fedu,Mjob,Fjob,reason,
