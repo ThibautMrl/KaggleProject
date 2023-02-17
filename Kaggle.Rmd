@@ -103,7 +103,7 @@ ages
 # As it clearly shown in the graph above, most of the students older than 18 are male students as there no female students older than 20 years old.
 
 
-#A utiliser plutot dans la seconde partie en lien avec le contexte social 
+#On etudie le milieu urbain/rural  des étudinats 
 
 ```{r}
 area= ggplot(student, aes(x=address)) +
@@ -114,7 +114,7 @@ area
 
 
 
-La table que nous allons utiliser :
+La table que nous allons utiliser pour mettre en relation les resultats scolaires et l'aspect social :
 
 ```{r}
 sFam <- student %>% select(famsize,Pstatus,Medu,Fedu,Mjob,Fjob,reason,famsup,famrel,G1,G2,G3)
