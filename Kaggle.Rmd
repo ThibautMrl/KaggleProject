@@ -27,8 +27,12 @@ Importation de la base de données et installation des package:
 student<- read.csv('student-mat.csv')
 #install.packages("ggplot2")
 #install.packages("dplyr")
+#install.packages("party")
+#install.packages("rsample")
+library(rsample)
 library(ggplot2)
 library(dplyr)
+library(party)
 ```
 
 
@@ -105,10 +109,48 @@ area= ggplot(student, aes(x=address)) +
     geom_bar(fill='orchid')
 area 
 ```
-La table que nous allons utiliser :
+Classification :
+https://veroniquetremblay.github.io/analyse_de_donnees_et_apprentissage_statistique_en_R/arbres-et-forets-aleatoires.html
 
 ```{r}
-sFam <- student %>% select(famsize,Pstatus,Medu,Fedu,Mjob,Fjob,reason,famsup,famrel,G1,G2,G3)
-sFam
+student <- student %>% select(address,famsize,Pstatus,Medu,Fedu,Mjob,Fjob,reason,
+                              guardian,traveltime,famsup,nursery,famrel,G1,G2,G3)
+student <- student %>%mutate(mean_grade = (G1+G2+2*G3)/4)
+student <- student %>%mutate(G1 = NULL,G2 = NULL,G3 = NULL,mean_grade = mean_grade >= 10)
+student <- student %>% mutate_all(as.factor)
+```
+
+Séparation des données :
+
+```{r}
+split <- initial_split(student, prop = .7, strata = "mean_grade")
+#echantillonnage stratifié -> même proba de oui et non dans chaque partie
+train <- training(split)
+test  <- testing(split)
+```
+
+Création de l'arbre :
+
+```{r}
+# Choisir les hyperparamètres
+hp <- ctree_control(minsplit = 2, #L'effectif minimal pour séparer un noeud 
+                     minbucket = 1, # L'effectif minimal dans chaque noeud terminal
+                     maxdepth = 70, # Hauteur (profondeur) maximale de l'arbre
+                    mincriterion = 0.05) # 1-p-valeur à partir de laquelle on souhaite cesser la croissance)
+
+# Construire l'arbre
+arbre_ctree <- ctree(mean_grade~., train,control = hp)
+arbre_ctree
+```
+
+Prediction :
+
+```{r}
+hat_y <- predict(arbre_ctree, # Le modèle
+                 test)
+hat_y
+```
+```{r}
+sum(hat_y == test$mean_grade)/nrow(test)
 ```
 
