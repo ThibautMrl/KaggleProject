@@ -25,8 +25,8 @@ Importation de la base de données et installation des package:
 
 ```{r}
 student<- read.csv('student-mat.csv')
-#install.packages("ggplot2")
-#install.packages("dplyr")
+install.packages("ggplot2")
+install.packages("dplyr")
 library(ggplot2)
 library(dplyr)
 ```
@@ -91,11 +91,16 @@ print("Pourcentage d'étudiant en bonne santé");sum(student$health>=3)/n_studen
 #We can see that the majority of the students are in good health
 
 
+
+
+#On etudie l'age des étudinats 
+
 ```{r}
-var(student$G1)
 ages= ggplot(data=student,aes(x=age, fill=sex))+geom_histogram(binwidth=0.50)
 ages
 ```
+
+# As it clearly shown in the graph above, most of the students older than 18 are male students as there no female students older than 20 years old.
 
 
 #A utiliser plutot dans la seconde partie en lien avec le contexte social 
@@ -105,6 +110,10 @@ area= ggplot(student, aes(x=address)) +
     geom_bar(fill='orchid')
 area 
 ```
+#as clearly seen aboce most of the students live in urban areas
+
+
+
 La table que nous allons utiliser :
 
 ```{r}
