@@ -1,28 +1,29 @@
 # Kaggle Project
-# Kaggle Project
-
-#Question Globale :
-#Business Goal 
-#Quelles est l'impact de notre environement social (parent , oseille , education ) sur  les resultats  scolaires ? L'objectif est de mettre en avant l'impact du contexte familial sur les resultats scolaire . 
 
 
 #Plan 
 
-#analyse , description du data (mean , variance, fille garcon, etc )
+Etape 1
+Continuez la DESCRIPTION ANALYSE DU DATA CAR C CE QUI EST DEMANDE POUR LETAPE 1 , ON VERRA ENSUITE POUR LETAPE 2 
 
-#Blabla sur etude analyse de data,age fille , proportion fille garcon etc mais on ne rentre pas dans le details de ce 
+#analyse , description du data (mean , variance, fille garcon, etc ) , Blabla sur etude analyse de data,age fille , proportion fille garcon etc mais on ne rentre pas dans le details de ce 
 #que l'on veut faire dans la seconde partie   
 
-#choisis les collones voulues (R extraction ) 
-
+Etape 2
 #description des futures analyse (regresion lineaire , )
+-choisis les collones voulues (R extraction ) 
+-
+-
 
 
+QLQ SE RAPELLE DE LA MANIP POUR VERIFIER SI LE DATA EST CONFORME QUE LE RPOF AVAIT DE FAIRE ?
+# 1 On va etudier si notre data base est conforme .
 
 
-# 1 On va etudier si notre data base est conforme (jsp ce quil avait dit de faire ici avec la conformite de la database ).
+M'barek Aissam - Maurel Thibaut - EL Schneider  Lillian - Lucaroni tino MAM4
+Base de donnée choisie : Student Grade Prediction 
 
-Importation de la base de données et installation des package:
+1-  Installation des package et importation:
 
 ```{r}
 student<- read.csv('student-mat.csv')
@@ -30,6 +31,7 @@ student<- read.csv('student-mat.csv')
 #install.packages("ggplot2")
 #install.packages("party")
 #install.packages("rsample")
+
 #library(rsample)
 
 library(ggplot2)
@@ -37,9 +39,51 @@ library(dplyr)
 library(party)
 library(rsample)
 ```
+2-   Description de la base de données :
+
+Nous avons accès aux informations suivantes :
+
+• Le nom de l'école que fréquente l'étudiant                    (Binaire: 'GP' - Gabriel Pereira ou 'MS' - Mousinho da 
+                                                                Silveira)
+• Le sexe de l'étudiant                                         (Binaire: 'F' - female ou 'M' - male)
+• L'age de l'étudiant                                           (numeric: de 15 à 22)
+• L'adresse de l'étudiant                                       (Binaire: 'U' - urbain ou 'R' - rural)
+• La taille de la famille  de l'étudiant                        (Binaire:'LE3'-less or equal a  3 ou GT3-greater than 3)
+• Le statut des parents   de l'étudiant                         (Binaire: 'T' - living together or 'A' - apart)
+• La formation du pere   de l'étudiant                          (Numérique: 0 - aucune , 1 - Ecole  ,2 - College , 
+                                                                3 - Lycee , 4 - Supérieur )
+• La formation de la mere  de l'étudiant                         (Numérique: 0 - aucune , 1 - Ecole  ,2 - College , 
+                                                                3 - Lycee , 4 - Supérieur )                              
+• Le metier du pere  de l'étudiant                              (Nominal: 'teacher', 'health' care related, civil                                                                        'services' , 'at_home' or 'other')
+• Le metier  de la mere  de l'étudiant                          (Nominal: 'teacher', 'health' care related, civil                                                                        'services' , 'at_home' or 'other')
+• Les raison du choix de cette ecole                            (Nominal: close to 'home', school 'reputation', '                                                                        course' preference or'other')
+• Le tuteur de l'étudiant                                       (Nominal: 'mother', 'father' ou 'other')
+• La durée de voyage de l'étudiant                              (Numérique: 1 - <15 min., 2 - 15 à 30 min.,                                                                               3 - 30 min. à 1 heure, 4 - >1 hour)        
+• Le temp de travail de l'étudiant                              (Numérique: 1 - <2 heures, 2 - 2 to 5 heures ,                                                                            3 - 5 à 10 heures , 4 - >10 heures )
+• Le nombre de redoublement de l'étudiant                       (Numérique: n si 1<=n<3, sinon 4)
+• Les cours extrascolaire de l'étudiant(Math or Portuguese)     (Binaire: Oui ou Non)
+• Les supports  educationel  de l'étudiant                      (Binaire: Oui ou Non)
+• Les cours particuliers de l'étudiant                          (Binaire: Oui ou Non)
+• Les activités extrascolaire de l'étudiant                     (Binaire: Oui ou Non)
+• L'étudiant a frequente les classes inferieures                (Binaire: Oui ou Non)
+• Si l'étudiant va poursuivre etudier dans le superieur         (Binaire: Oui ou Non)
+• Si l'étudiant  a accées a internet                            (Binaire: Oui ou Non)
+• Si l'étudiant  a une relation amoureuse                       (Binaire: Oui ou Non)
+• Les relations familliales de l'étudiant                       (Numérique: De 1 - vraiment mauvaise à 5 - excellente)
+• Le temps vacant de l'étudiant                                 (Numérique: De 1 - vraiment mauvaise à 5 - excellente)
+• Si l'étudiant  sors souvent avec des amis                     (Numérique: De 1 - vraiment mauvaise à 5 - excellente)
+• La consommation journaliere d'alcool de l'étudiant            (Numérique: De 1 - vraiment mauvaise à 5 - excellente)
+• La consommation hebdomaire  d'alcool de l'étudiant            (Numérique: De 1 - vraiment mauvaise à 5 - excellente)
+• La sante actuelle  de l'étudiant                              (Numérique: De 1 - vraiment mauvaise à 5 - excellente)
+• Le nombre d'absences de l'étudiant                            (Numérique: de 0 à 93)
+• La note du trimestre 1 de l'étudiant                          (Numérique: de 0 à 93)
+• La note du trimestre 2 de l'étudiant                          (Numérique: de 0 à 93)
+• La note final  de l'étudiant                                  (Numérique: de 0 à 93)
 
 
-On etudie l'age  des fille et des garcons dans la population totale .
+
+
+On étudie l'age  des fille et des garcons dans la population totale .
 
 ```{r}
 n_student = nrow(student) #nb d'etudiant
@@ -49,13 +93,16 @@ age= ggplot(aes(x=age), data=student)+
   ggtitle("Age of students")
 age
 ```
+
 ```{r}
 print("l'age moyen des étudiants est : "); mean(student$age)
 print("la variance de l'age des étudiants est : "); var(student$age)
 print("la medianne de l'age des étudiants est : "); median(student$age)
 ```
 
-Les écoles:
+
+On etudie les caracteristiques des ecoles :
+:
 
 ```{r}
 student %>% distinct(school)
@@ -71,7 +118,7 @@ sum(student$school=="GP")/n_student
 ```
 
 
-On etudie le nombre de filles et de garcons dans la population totale :
+On étudie le nombre de filles et de garcons dans la population totale :
 
 ```{r}
 gender= ggplot(data=student,aes(x=sex,fill=sex))+geom_bar()
@@ -96,9 +143,7 @@ print("Pourcentage d'étudiant en bonne santé");sum(student$health>=3)/n_studen
 
 ```
 
-We can see that the majority of the students are in good health
-
-
+On peut voir que la majorité des étudiants sont en bonne santé .
 
 
 On étudie l'age des étudiants 
@@ -119,6 +164,37 @@ area= ggplot(student, aes(x=address)) +
 area 
 ```
 Comme on le voit clairement ci-dessus, la plupart des étudiants vivent dans des zones urbaines
+
+
+
+
+2- Objectifs d’affaires
+
+Le projet que nous  avons  entrepris vise à étudier  l'impact que notre environnement social à sur les résultats scolaires, et en fin de compte, sur notre avenir professionnel. 
+Cette question est d'une importance cruciale pour notre société car elle touche directement à l'égalité des chances et à la justice sociale.
+
+En effet, il est bien connu que les inégalités sociales ont un impact significatif sur la réussite scolaire. Les élèves issus de milieux défavorisés ont souvent moins accès aux ressources pédagogiques et aux opportunités éducatives que les élèves des milieux favorisés. Ils peuvent également être confrontés à des défis sociaux et émotionnels qui peuvent nuire à leur performance académique.
+
+Notre objectif est ici d'améliorer l'avenir professionnel des élèves en leur donnant les outils dont ils ont besoin pour réussir à l'école et dans leur vie professionnelle. 
+
+Nous nous concentrerons uniquement sur les attributs liés à l'environnement familial de l'étudiant et ne prendrons pas en compte des facteurs liées au comportmeent intreseque des étudiants .
+
+Les questions qui ressortents de cette objectifs et auqeuls nous répondrons sont multiples :
+
+-Quelles sont les causes principales de résultats insuffisants chez les étudiants ?
+-Les étudiants de milieux sociaux différents rencontrent-ils les mêmes difficultés scolaires et sont-ils affectés de la même manière par leur environnement social ?
+-Quels sont les traits communs des étudiants qui réussissent leur études (le "MAJOR") et de ceux qui échouent (le "MINOR") ? (Faire le profil type de l'eleve qui reussit (le MAJOR) et de celui qui ne reussit pas (le MINOR))
+-Quel est le secteur d’emploi des parents qui touche le plus les gosses qui resusisent pas  ?
+-Finalement  , Y a-t-il un réel  lien entre la reussite et l'environement  social ou ce n'est pas vrai ?  
+
+
+
+3 - Objectif technique
+decrire comment on va montrer lobjeitf d'affaires 
+
+methode etc (UTILISER CELLE DU COURS )
+-Extraction des données que noous allons utiliser dans notre étude .
+
 
 Classification :
 https://veroniquetremblay.github.io/analyse_de_donnees_et_apprentissage_statistique_en_R/arbres-et-forets-aleatoires.html
