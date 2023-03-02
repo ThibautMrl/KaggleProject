@@ -12,12 +12,12 @@ Continuez la DESCRIPTION ANALYSE DU DATA CAR C CE QUI EST DEMANDE POUR LETAPE 1 
 
 #description des futures analyse (regresion lineaire , )
 -choisis les collones voulues (R extraction ) 
--
--
-
 
 QLQ SE RAPELLE DE LA MANIP POUR VERIFIER SI LE DATA EST CONFORME QUE LE RPOF AVAIT DE FAIRE ?
 # 1 On va etudier si notre data base est conforme .
+
+
+
 
 
 M'barek Aissam - Maurel Thibaut - EL Schneider  Lillian - Lucaroni tino MAM4
@@ -39,6 +39,15 @@ library(dplyr)
 library(party)
 library(rsample)
 ```
+
+```{r}
+install.packages("pheatmap", dep=T) 
+numeric_features <- Filter(is.numeric, student)
+
+library(pheatmap)
+pheatmap(cor(numeric_features))
+```
+
 2-   Description de la base de données :
 
 Nous avons accès aux informations suivantes :
@@ -46,7 +55,7 @@ Nous avons accès aux informations suivantes :
 • Le nom de l'école que fréquente l'étudiant                    (Binaire: 'GP' - Gabriel Pereira ou 'MS' - Mousinho da 
                                                                 Silveira)
 • Le sexe de l'étudiant                                         (Binaire: 'F' - female ou 'M' - male)
-• L'age de l'étudiant                                           (numeric: de 15 à 22)
+• L'age de l'étudiant                                           (Numérique: de 15 à 22)
 • L'adresse de l'étudiant                                       (Binaire: 'U' - urbain ou 'R' - rural)
 • La taille de la famille  de l'étudiant                        (Binaire:'LE3'-less or equal a  3 ou GT3-greater than 3)
 • Le statut des parents   de l'étudiant                         (Binaire: 'T' - living together or 'A' - apart)
@@ -87,9 +96,8 @@ On étudie l'age  des fille et des garcons dans la population totale .
 
 ```{r}
 n_student = nrow(student) #nb d'etudiant
-
 age= ggplot(aes(x=age), data=student)+
-  geom_histogram(binwidth = 0.50, fill='darkred', color='black')+
+  geom_histogram(binwidth = 0.50, fill="#ff691f", color="#197dff")+
   ggtitle("Age of students")
 age
 ```
@@ -121,7 +129,7 @@ sum(student$school=="GP")/n_student
 On étudie le nombre de filles et de garcons dans la population totale :
 
 ```{r}
-gender= ggplot(data=student,aes(x=sex,fill=sex))+geom_bar()
+gender= ggplot(data=student,aes(x=sex,fill=sex),color="#ff691f")+geom_bar()
 gender
 ```
 ```{r}
@@ -132,7 +140,10 @@ print("proportion de garçon : ");sum(student$sex=="M")/n_student
 On étudie la santé des étudiants :
 
 ```{r}
-health= ggplot(data=student,aes(x=health,fill=sex))+geom_histogram(binwidth=0.5, fill='salmon')
+health= ggplot(data=student,aes(x=health,fill=sex))+geom_histogram(binwidth=0.5, fill='#ff691f')
+
+
+  
 health
 ```
 ```{r}
@@ -149,7 +160,7 @@ On peut voir que la majorité des étudiants sont en bonne santé .
 On étudie l'age des étudiants 
 
 ```{r}
-ages= ggplot(data=student,aes(x=age, fill=sex))+geom_histogram(binwidth=0.50)
+ages= ggplot(data=student,aes(x=age, fill=sex))+geom_histogram(binwidth=0.50,color="#ff691f")
 ages
 ```
 
@@ -160,11 +171,37 @@ On étudie le milieu urbain/rural des étudiants
 
 ```{r}
 area= ggplot(student, aes(x=address)) +
-    geom_bar(fill='orchid')
+    geom_bar(fill='#ff691f')
 area 
 ```
 Comme on le voit clairement ci-dessus, la plupart des étudiants vivent dans des zones urbaines
 
+
+
+
+```{r}
+Motherjob= ggplot(student, aes(x=Mjob)) +geom_bar(fill='#ff691f')
+Motherjob
+
+```
+
+```{r}
+Fotherjob= ggplot(student, aes(x=Fjob)) +geom_bar(fill='#ff691f')
+Fotherjob
+```
+```{r}
+Fedu= ggplot(student, aes(x=Fedu)) +geom_bar(fill='#197dff', color="#ff691f")
+Fedu
+```
+
+```{r}
+Medu= ggplot(student, aes(x=Medu)) +geom_bar(fill='#197dff', color='#ff691f')
+Medu
+```
+```{r}
+table(student$famsize)
+ggplot(student, aes(x=famsize))+geom_bar(fill='#197dff',color='#ff691f')
+```
 
 
 ```{r}
@@ -184,13 +221,53 @@ student %>%
          caption="",fill="Region",x="Note",y="Pourcentage total des etudiants ") +scale_fill_manual(values = colors)
 ```
 
+Le graphe que nous avons devant nous montre une légère avance des étudiants urbains en termes de résultats scolaires par rapport à leurs homologues ruraux. La courbe représentant les résultats scolaires des étudiants urbains est légèrement plus élevée et plus stable que celle des étudiants ruraux.
 
+Cette différence peut être due à plusieurs facteurs tels que l'accès à des ressources éducatives de qualité, des infrastructures modernes, des enseignants mieux formés, ainsi qu'un environnement éducatif plus stimulant et plus compétitif.
+
+
+```{r}
+
+student <- student %>%
+    mutate(famsup = ifelse(famsup == "no", "OUI", "NON")) 
+#%>%
+    #mutate(address = ifelse(address == "U", "urbano", "rural"))
+
+
+student %>%ggplot(aes(x=higher, fill = famsup)) + geom_bar(colour = "black", alpha = 0.8, position="fill") +scale_fill_manual(values = colors) +labs(title="Soutien familial et désir d'obtenir un diplôme", 
+         subtitle="Le soutien familial à un impact significatif sur les ambitions des étudiants.",
+         caption="",
+         fill="La famille soutient :",
+         x="Volonté d'obtenir son diplome",
+         y="Pourcentage ")
+
+student %>%
+    ggplot(aes(x=studytime, fill = famsup)) +
+    geom_bar(colour = "black", alpha = 0.8, position="fill") +
+    scale_fill_manual(values = colors) +
+    labs(title="Soutien familial et heures d'étude", 
+         subtitle="La famille affecte aussi visiblement l'engagement des élèves.",
+         caption="",
+         fill="La famille soutient :",
+         x="Heures d'étude",
+         y="pourcentage")
+```
+
+
+
+
+Le graphe que nous avons devant nous montre clairement l'impact de l'environnement familial sur la réussite scolaire des étudiants. Les étudiants qui ont bénéficié d'un soutien familial dans leur parcours éducatif ont tendance à etre plus motivée dans leur réussite scoalire et donc en conséquence a plus etudieur que les éleves ne beneficiant pas d'un environnement familial similaire .
+
+
+Cependant, il est important de souligner que l'accès au soutien familial n'est pas toujours équitable et que certains étudiants peuvent être désavantagés en raison de leur environnement social et économique. Il est donc crucial de comprendre comment les facteurs sociaux et économiques peuvent influencer l'accès au soutien familial et comment cela peut affecter la réussite scolaire.
+
+Pour cette raison, il est essentiel de mener des études plus approfondies pour comprendre l'impact social de l'environnement familial sur la réussite scolaire des étudiants. Cela permettra de mieux comprendre les besoins des étudiants et de mettre en place des politiques et des initiatives éducatives qui favorisent une égalité des chances pour tous.
 
 
 
 2- Objectifs d’affaires
 
-Le projet que nous  avons  entrepris vise à étudier  l'impact que notre environnement social à sur les résultats scolaires, et en fin de compte, sur notre avenir professionnel. 
+Le projet que nous  avons  entrepris vise à étudier en profondeur l'impact que notre environnement social à sur les résultats scolaires, et en fin de compte, sur notre avenir professionnel. 
 Cette question est d'une importance cruciale pour notre société car elle touche directement à l'égalité des chances et à la justice sociale.
 
 En effet, il est bien connu que les inégalités sociales ont un impact significatif sur la réussite scolaire. Les élèves issus de milieux défavorisés ont souvent moins accès aux ressources pédagogiques et aux opportunités éducatives que les élèves des milieux favorisés. Ils peuvent également être confrontés à des défis sociaux et émotionnels qui peuvent nuire à leur performance académique.
@@ -209,19 +286,13 @@ Les questions qui ressortents de cette objectifs et auquels nous répondrons son
 
 
 
+
+
 3 - Objectif technique
-decrire comment on va montrer lobjeitf d'affaires 
-
-methode etc (UTILISER CELLE DU COURS )
--Extraction des données que noous allons utiliser dans notre étude .
-
-
-Classification :
-https://veroniquetremblay.github.io/analyse_de_donnees_et_apprentissage_statistique_en_R/arbres-et-forets-aleatoires.html
 
 
 
-La table que nous allons utiliser pour mettre en relation les resultats scolaires et l'aspect social :
+
 
 ```{r}
 student <- student %>% select(address,famsize,Pstatus,Medu,Fedu,Mjob,Fjob,reason,
@@ -231,7 +302,25 @@ student <- student %>%mutate(G1 = NULL,G2 = NULL,G3 = NULL,mean_grade = mean_gra
 student <- student %>% mutate_all(as.factor)
 ```
 
+Extraction des données qye nous utiliserons pour notre étude.
 
+
+
+
+La table que nous allons utiliser pour mettre en relation les resultats scolaires et l'aspect social est la suivante puisque nous voulons essentiellment nous consacrer à l'aspect familial de l'étudiant et ne prendrons pas en compte des facteurs liées au comportement intreseque des étudiants .
+
+
+Pour etudier de manière de aprofondie ce business goal nous allons utiliser plusieurs  techniques ques sont  :
+
+Arbre de décision : Nous allons utiliser cette technique  pour classifier des données en fonction de différentes variables afin de déterminer les facteurs les plus importants qui influencent la réussite scolaire des étudiants, tels que la taille de la famille de l'étudiants , le niveau d'éducation des parents etc.
+
+Régression multiple : Cette  technique va nous permettre d'établir une relation linéaire entre une variable dépendante et plusieurs variables indépendantes cela nous permettra de déterminer de maniere plus précise l'impact de différentes variables sur la réussite scolaire des étudiants .
+
+Régression logistique : Enfin , nous etudierons une regression logistique pour modéliser la probabilité d'un événement binaire en fonction de variables explicatives.
+Cela nous permettra de éterminer la probabilité qu'un étudiant réussisse ou échoue en fonction de son environnement social et des autres variables pertinentes.
+
+Dans chaque technique, nous utiliserons des outils de visualisation pour représenter graphiquement les résultats et les conclusions de notre analyse. 
+Les arbres de décision seront visualisés sous forme d'arbre.Nous visualiserons les régressions multiples sous forme de graphiques de dispersion et les régressions logistiques sous forme de graphiques de courbes ROC ou de matrices de confusion.
 
 
 
@@ -242,6 +331,9 @@ student <- student %>% mutate_all(as.factor)
 
 ###KAGGLE 2 
 Séparation des données :
+
+Classification :
+https://veroniquetremblay.github.io/analyse_de_donnees_et_apprentissage_statistique_en_R/arbres-et-forets-aleatoires.html
 
 ```{r}
 split <- initial_split(student, prop = .7, strata = "mean_grade")
