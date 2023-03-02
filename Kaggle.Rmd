@@ -6,10 +6,10 @@
 Etape 1
 Continuez la DESCRIPTION ANALYSE DU DATA CAR C CE QUI EST DEMANDE POUR LETAPE 1 , ON VERRA ENSUITE POUR LETAPE 2 
 
-#analyse , description du data (mean , variance, fille garcon, etc ) , Blabla sur etude analyse de data,age fille , proportion fille garcon etc mais on ne rentre pas dans le details de ce 
+#analyse , description du data (mean , variance, fille garcon, etc ) 
+#Blabla sur etude analyse de data,age fille , proportion fille garcon etc mais on ne rentre pas dans le details de ce 
 #que l'on veut faire dans la seconde partie   
 
-Etape 2
 #description des futures analyse (regresion lineaire , )
 -choisis les collones voulues (R extraction ) 
 -
@@ -101,7 +101,7 @@ print("la medianne de l'age des étudiants est : "); median(student$age)
 ```
 
 
-On etudie les caracteristiques des ecoles :
+On etudie les caracteristiques des écoles :
 :
 
 ```{r}
@@ -167,6 +167,26 @@ Comme on le voit clairement ci-dessus, la plupart des étudiants vivent dans des
 
 
 
+```{r}
+
+
+colors <- c("#ff691f", "#197dff")
+
+student <- student %>% mutate(note_mediane = (G1 + G2 + G3)/3)
+
+
+scale_fill_manual(values = colors)
+student %>%
+    ggplot(aes(note_mediane)) +
+    geom_density(aes(fill=address), alpha=0.8) +
+    labs(title="Note moyenne des élèves ruraux et urbains", 
+         subtitle="Les étudiants urbains ont un léger avantage.",
+         caption="",fill="Region",x="Note",y="Pourcentage total des etudiants ") +scale_fill_manual(values = colors)
+```
+
+
+
+
 
 2- Objectifs d’affaires
 
@@ -177,15 +197,15 @@ En effet, il est bien connu que les inégalités sociales ont un impact signific
 
 Notre objectif est ici d'améliorer l'avenir professionnel des élèves en leur donnant les outils dont ils ont besoin pour réussir à l'école et dans leur vie professionnelle. 
 
-Nous nous concentrerons uniquement sur les attributs liés à l'environnement familial de l'étudiant et ne prendrons pas en compte des facteurs liées au comportmeent intreseque des étudiants .
+Nous nous concentrerons uniquement sur les attributs liés à l'environnement familial de l'étudiant et ne prendrons pas en compte des facteurs liées au comportement intreseque des étudiants .
 
-Les questions qui ressortents de cette objectifs et auqeuls nous répondrons sont multiples :
+Les questions qui ressortents de cette objectifs et auquels nous répondrons sont multiples :
 
 -Quelles sont les causes principales de résultats insuffisants chez les étudiants ?
 -Les étudiants de milieux sociaux différents rencontrent-ils les mêmes difficultés scolaires et sont-ils affectés de la même manière par leur environnement social ?
 -Quels sont les traits communs des étudiants qui réussissent leur études (le "MAJOR") et de ceux qui échouent (le "MINOR") ? (Faire le profil type de l'eleve qui reussit (le MAJOR) et de celui qui ne reussit pas (le MINOR))
--Quel est le secteur d’emploi des parents qui touche le plus les gosses qui resusisent pas  ?
--Finalement  , Y a-t-il un réel  lien entre la reussite et l'environement  social ou ce n'est pas vrai ?  
+-Quel est le secteur d’emploi des parents qui touche le plus les éléves qui ne réussisent pas  ?
+-Finalement  ,y-a-t-il un réel lien entre la réussite et l'environement  social ou ce n'est pas vrai ?  
 
 
 
@@ -211,6 +231,16 @@ student <- student %>%mutate(G1 = NULL,G2 = NULL,G3 = NULL,mean_grade = mean_gra
 student <- student %>% mutate_all(as.factor)
 ```
 
+
+
+
+
+
+
+
+
+
+###KAGGLE 2 
 Séparation des données :
 
 ```{r}
