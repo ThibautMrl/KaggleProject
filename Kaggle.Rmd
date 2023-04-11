@@ -1,113 +1,27 @@
 # Kaggle Project
 
+
+#Plan 
+
+Etape 1
+Continuez la DESCRIPTION ANALYSE DU DATA CAR C CE QUI EST DEMANDE POUR LETAPE 1 , ON VERRA ENSUITE POUR LETAPE 2 
+
+#analyse , description du data (mean , variance, fille garcon, etc ) , Blabla sur etude analyse de data,age fille , proportion fille garcon etc mais on ne rentre pas dans le details de ce 
+#que l'on veut faire dans la seconde partie   
+
+Etape 2
+#description des futures analyse (regresion lineaire , )
+-choisis les collones voulues (R extraction ) 
+-
+-
+
+
+QLQ SE RAPELLE DE LA MANIP POUR VERIFIER SI LE DATA EST CONFORME QUE LE RPOF AVAIT DE FAIRE ?
+# 1 On va etudier si notre data base est conforme .
+
+
 M'barek Aissam - Maurel Thibaut - EL Schneider  Lillian - Lucaroni tino MAM4
 Base de donnée choisie : Student Grade Prediction 
-
-
-
-
-1- Etude de la conformite du data base 
-
-
-
-- Provenance des données:
-
-Notre jeux de  données abordent les résultats des éléves dans l'enseignement secondaire de deux écoles portugaises.
-Le jeu de donnée comporte entre autres les notes des éléves, les caractéristiques démographiques, sociales , scolaires etc.
-Ces données ont était collectées à l'aide de rapports scolaires et de questionnaires et se basent sur les résultats en mathématiques (MAT) et en langue portugaise (POR).
-
-
--- Conformité du dataset:
-
-Nous allons commencer par vérifier la qualité de notre jeu de données.
-En effet, il est possible que des valeurs aberrantes se soient introduites dans le dataset, ou alors qu'il y ait des valeurs manquantes.
-La première ?tape est donc de vérifier si le jeu de données est bien complet, sans valeurs étranges (exemple : un élève ayant une note de 22/20 dans une matière).
-On commence par la détection des outliers :
-
-Une méthode classiquement employée pour détecter les outliers, consiste à réaliser un boxplot.On parle alors de méthode de détection univariée car elle ne concerne qu'une seule dimension, ou variable.
-La méthode boxplot permet aussi d'encadrer dans un rectangle les données comprises entre le premier quartile et le troisième quartile.
-
-Test sur les data numériques: 
-
-```{r}
-ggplot(data=student, aes( x=age)) +
-    geom_boxplot()+ 
-    xlab(label = "age") +
-    ylab(label = "count") +
-    theme(axis.text.x = element_text(angle=30, hjust=1, vjust=1))+
-    theme(legend.position="none")+
-    ggtitle("Exemple de boxplots sur les données concernant l'age des étudiants ")
-```
-On voit un point éloigné du boxplot, on peut alors se demander d'ou il provient, si c'est une anomalie ou si c'est une donnée à prendre en considération. Ici ce point n'est pas aberant  car il n'est pas impossible qu'il y ait un étudiant de 22 ans dans cette école (plusieurs redoublements, réorientation).
-
-Regardons un autre exemple: l'analyse des notes des étudiants par trimestre:
-
-```{r}
-t1 <- ggplot(data=student, aes(x=G1)) +
-    geom_boxplot()+ 
-    xlab(label = "Notes") +
-    ylab(label = "Proportion") +
-    theme(axis.text.x = element_text(angle=30, hjust=1, vjust=1))+
-    theme(legend.position="none")+
-    geom_boxplot(outlier.colour="red", outlier.shape=16,outlier.size=2, notch=FALSE) +
-    ggtitle("Trimestre 1") 
-
-t2 <- ggplot(data=student, aes(x=G2)) +
-    geom_boxplot()+ 
-    xlab(label = "Notes") +
-    ylab(label = "Proportion") +
-    theme(axis.text.x = element_text(angle=30, hjust=1, vjust=1))+
-    theme(legend.position="none")+
-    geom_boxplot(outlier.colour="red", outlier.shape=16,outlier.size=2, notch=FALSE) +
-    ggtitle("Trimestre 2") 
-
-t3 <- ggplot(data=student, aes(x=G3)) +
-    geom_boxplot()+ 
-    xlab(label = "Notes") +
-    ylab(label = "Proportion") +
-    theme(axis.text.x = element_text(angle=30, hjust=1, vjust=1))+
-    theme(legend.position="none")+
-    geom_boxplot(outlier.colour="red", outlier.shape=16,outlier.size=2, notch=FALSE) +
-    ggtitle("Trimestre 3") 
-
-library("ggpubr")
-
-figure <- ggarrange(t1, t2, t3,ncol = 3, nrow = 3)
-figure
-```
-D' aprés le graphe obtenu, les notes des élèves sont bien comprises entre 0 et 20. 
-Nous avons pris le soin de marquer en rouge les valeurs quelque peux atypiques détectées par le boxplot.
-Il y en a une dans le graphe du deuxième trimestre, mais elle correspond à un élève  avec une moyenne de 0, ce qui a était considéreé comme une valeur aberrante par al fonction étant donnée de l'éloignement de sa moyenne par rapport à celle des autres élèves. Ce point n'est donc pas considéré comme un outlier car 0 est une note possible à obtenir.
-
-Il n'y a donc pas de données aberrantes pour les notes.
-
-Nous avons utilisée cette méthode pour les autres variables du dataset, et nous pouvons aisément conclure qu'il n'y a aucune valeur aberrante que nous ne prenons pas en compte.
-
-
-Test sur les data nominales et binaire: 
-
-```{r}
-sexuni <- student %>% distinct(sex)
-sexuni == c('F', 'M') 
-```
-
-
-
-On remarque que le test d'égalité renvoie true ce qui signifie que la colonne sur le sexe ne comporte que les valeurs "F" et "M".Nous avons procédé de la meme m?maniere sur les autres colonnes et nous n'avons pas remarquée de valeurs aberrantes.
-
-
-Maintenant, regardons s'il existe des données manquantes dans notre jeu de données.
-La ligne de code suivant compte le nombre de "NA" (c'est-à-dire le nombre de valeurs manquantes) dans notre dataset:
-
-```{r}
-sum(is.na(student)==TRUE)
-
-```
-
-Cette ligne renvoie 0, donc il n'y a aucune valeur manquante.
-
-On peut donc conclure que notre jeu de donnée est bien conforme, et qu'on peut l'utiliser tranquillement.
-
 
 1-  Installation des package et importation:
 
@@ -125,19 +39,6 @@ library(dplyr)
 library(party)
 library(rsample)
 ```
-
-```{r}
-install.packages("pheatmap", dep=T) 
-numeric_features <- Filter(is.numeric, student)
-
-library(pheatmap)
-pheatmap(cor(numeric_features))
-```
-Le graphe de corrélation que nous avons créé en utilisant notre base de données nous  montre de nombreuse corrélation positive entre certaines valeurs , ce qui suggère que lorsque la valeur de certaines variables augmente, la valeur d'autres variables a tendance à augmenter également. Les données que nous avons utilisées sont représentatives de notre population cible, ce qui nous permet de tirer des conclusions significatives à partir de ces résultats.
-
-
-
-
 2-   Description de la base de données :
 
 Nous avons accès aux informations suivantes :
@@ -145,7 +46,7 @@ Nous avons accès aux informations suivantes :
 • Le nom de l'école que fréquente l'étudiant                    (Binaire: 'GP' - Gabriel Pereira ou 'MS' - Mousinho da 
                                                                 Silveira)
 • Le sexe de l'étudiant                                         (Binaire: 'F' - female ou 'M' - male)
-• L'age de l'étudiant                                           (Numérique: de 15 à 22)
+• L'age de l'étudiant                                           (numeric: de 15 à 22)
 • L'adresse de l'étudiant                                       (Binaire: 'U' - urbain ou 'R' - rural)
 • La taille de la famille  de l'étudiant                        (Binaire:'LE3'-less or equal a  3 ou GT3-greater than 3)
 • Le statut des parents   de l'étudiant                         (Binaire: 'T' - living together or 'A' - apart)
@@ -186,8 +87,9 @@ On étudie l'age  des fille et des garcons dans la population totale .
 
 ```{r}
 n_student = nrow(student) #nb d'etudiant
+
 age= ggplot(aes(x=age), data=student)+
-  geom_histogram(binwidth = 0.50, fill="#ff691f", color="#197dff")+
+  geom_histogram(binwidth = 0.50, fill='darkred', color='black')+
   ggtitle("Age of students")
 age
 ```
@@ -199,7 +101,8 @@ print("la medianne de l'age des étudiants est : "); median(student$age)
 ```
 
 
-On etudie les caracteristiques des écoles :
+On etudie les caracteristiques des ecoles :
+:
 
 ```{r}
 student %>% distinct(school)
@@ -218,7 +121,7 @@ sum(student$school=="GP")/n_student
 On étudie le nombre de filles et de garcons dans la population totale :
 
 ```{r}
-gender= ggplot(data=student,aes(x=sex,fill=sex),color="#ff691f")+geom_bar()
+gender= ggplot(data=student,aes(x=sex,fill=sex))+geom_bar()
 gender
 ```
 ```{r}
@@ -229,10 +132,7 @@ print("proportion de garçon : ");sum(student$sex=="M")/n_student
 On étudie la santé des étudiants :
 
 ```{r}
-health= ggplot(data=student,aes(x=health,fill=sex))+geom_histogram(binwidth=0.5, fill='#ff691f')
-
-
-  
+health= ggplot(data=student,aes(x=health,fill=sex))+geom_histogram(binwidth=0.5, fill='salmon')
 health
 ```
 ```{r}
@@ -249,7 +149,7 @@ On peut voir que la majorité des étudiants sont en bonne santé .
 On étudie l'age des étudiants 
 
 ```{r}
-ages= ggplot(data=student,aes(x=age, fill=sex))+geom_histogram(binwidth=0.50,color="#ff691f")
+ages= ggplot(data=student,aes(x=age, fill=sex))+geom_histogram(binwidth=0.50)
 ages
 ```
 
@@ -260,7 +160,7 @@ On étudie le milieu urbain/rural des étudiants
 
 ```{r}
 area= ggplot(student, aes(x=address)) +
-    geom_bar(fill='#ff691f')
+    geom_bar(fill='orchid')
 area 
 ```
 Comme on le voit clairement ci-dessus, la plupart des étudiants vivent dans des zones urbaines
@@ -268,154 +168,50 @@ Comme on le voit clairement ci-dessus, la plupart des étudiants vivent dans des
 
 
 
-```{r}
-Motherjob= ggplot(student, aes(x=Mjob)) +geom_bar(fill='#ff691f')
-Motherjob
-
-```
-
-```{r}
-Fotherjob= ggplot(student, aes(x=Fjob)) +geom_bar(fill='#ff691f')
-Fotherjob
-```
-```{r}
-Fedu= ggplot(student, aes(x=Fedu)) +geom_bar(fill='#197dff', color="#ff691f")
-Fedu
-```
-
-```{r}
-Medu= ggplot(student, aes(x=Medu)) +geom_bar(fill='#197dff', color='#ff691f')
-Medu
-```
-```{r}
-table(student$famsize)
-ggplot(student, aes(x=famsize))+geom_bar(fill='#197dff',color='#ff691f')
-```
-
-
-```{r}
-
-
-colors <- c("#ff691f", "#197dff")
-
-student <- student %>% mutate(note_mediane = (G1 + G2 + G3)/3)
-
-
-scale_fill_manual(values = colors)
-student %>%
-    ggplot(aes(note_mediane)) +
-    geom_density(aes(fill=address), alpha=0.8) +
-    labs(title="Note moyenne des élèves ruraux et urbains", 
-         subtitle="Les étudiants urbains ont un léger avantage.",
-         caption="",fill="Region",x="Note",y="Pourcentage total des etudiants ") +scale_fill_manual(values = colors)
-```
-
-Le graphe que nous avons devant nous montre une légère avance des étudiants urbains en termes de résultats scolaires par rapport à leurs homologues ruraux. La courbe représentant les résultats scolaires des étudiants urbains est légèrement plus élevée et plus stable que celle des étudiants ruraux.
-
-Cette différence peut être due à plusieurs facteurs tels que l'accès à des ressources éducatives de qualité, des infrastructures modernes, des enseignants mieux formés, ainsi qu'un environnement éducatif plus stimulant et plus compétitif.
-
-
-```{r}
-
-student <- student %>%
-    mutate(famsup = ifelse(famsup == "no", "OUI", "NON")) 
-#%>%
-    #mutate(address = ifelse(address == "U", "urbano", "rural"))
-
-
-student %>%ggplot(aes(x=higher, fill = famsup)) + geom_bar(colour = "black", alpha = 0.8, position="fill") +scale_fill_manual(values = colors) +labs(title="Soutien familial et désir d'obtenir un diplôme", 
-         subtitle="Le soutien familial à un impact significatif sur les ambitions des étudiants.",
-         caption="",
-         fill="La famille soutient :",
-         x="Volonté d'obtenir son diplome",
-         y="Pourcentage ")
-
-student %>%
-    ggplot(aes(x=studytime, fill = famsup)) +
-    geom_bar(colour = "black", alpha = 0.8, position="fill") +
-    scale_fill_manual(values = colors) +
-    labs(title="Soutien familial et heures d'étude", 
-         subtitle="La famille affecte aussi visiblement l'engagement des élèves.",
-         caption="",
-         fill="La famille soutient :",
-         x="Heures d'étude",
-         y="pourcentage")
-```
-
-
-
-
-Le graphe que nous avons devant nous montre clairement l'impact de l'environnement familial sur la réussite scolaire des étudiants. Les étudiants qui ont bénéficié d'un soutien familial dans leur parcours éducatif ont tendance à etre plus motivée dans leur réussite scoalire et donc en conséquence a plus etudieur que les éleves ne beneficiant pas d'un environnement familial similaire .
-
-
-Cependant, il est important de souligner que l'accès au soutien familial n'est pas toujours équitable et que certains étudiants peuvent être désavantagés en raison de leur environnement social et économique. Il est donc crucial de comprendre comment les facteurs sociaux et économiques peuvent influencer l'accès au soutien familial et comment cela peut affecter la réussite scolaire.
-
-Pour cette raison, il est essentiel de mener des études plus approfondies pour comprendre l'impact social de l'environnement familial sur la réussite scolaire des étudiants. Cela permettra de mieux comprendre les besoins des étudiants et de mettre en place des politiques et des initiatives éducatives qui favorisent une égalité des chances pour tous.
-
-
-
 2- Objectifs d’affaires
 
-Le projet que nous  avons  entrepris vise à étudier en profondeur l'impact que notre environnement social à sur les résultats scolaires, et en fin de compte, sur notre avenir professionnel. 
+Le projet que nous  avons  entrepris vise à étudier  l'impact que notre environnement social à sur les résultats scolaires, et en fin de compte, sur notre avenir professionnel. 
 Cette question est d'une importance cruciale pour notre société car elle touche directement à l'égalité des chances et à la justice sociale.
 
 En effet, il est bien connu que les inégalités sociales ont un impact significatif sur la réussite scolaire. Les élèves issus de milieux défavorisés ont souvent moins accès aux ressources pédagogiques et aux opportunités éducatives que les élèves des milieux favorisés. Ils peuvent également être confrontés à des défis sociaux et émotionnels qui peuvent nuire à leur performance académique.
 
 Notre objectif est ici d'améliorer l'avenir professionnel des élèves en leur donnant les outils dont ils ont besoin pour réussir à l'école et dans leur vie professionnelle. 
 
-Nous nous concentrerons uniquement sur les attributs liés à l'environnement familial de l'étudiant et ne prendrons pas en compte des facteurs liées au comportement intreseque des étudiants .
+Nous nous concentrerons uniquement sur les attributs liés à l'environnement familial de l'étudiant et ne prendrons pas en compte des facteurs liées au comportmeent intreseque des étudiants .
 
-Les questions qui ressortents de cette objectifs et auquels nous répondrons sont multiples :
+Les questions qui ressortents de cette objectifs et auqeuls nous répondrons sont multiples :
 
 -Quelles sont les causes principales de résultats insuffisants chez les étudiants ?
 -Les étudiants de milieux sociaux différents rencontrent-ils les mêmes difficultés scolaires et sont-ils affectés de la même manière par leur environnement social ?
--Quels sont les traits communs des étudiants qui réussissent leur études  et de ceux qui échouent ?Existe -il un profil type dans ces deux cas ?
--Finalement  ,y-a-t-il un réel lien entre la réussite et l'environement  social ou ce n'est pas vrai ? 
+-Quels sont les traits communs des étudiants qui réussissent leur études (le "MAJOR") et de ceux qui échouent (le "MINOR") ? (Faire le profil type de l'eleve qui reussit (le MAJOR) et de celui qui ne reussit pas (le MINOR))
+-Quel est le secteur d’emploi des parents qui touche le plus les gosses qui resusisent pas  ?
+-Finalement  , Y a-t-il un réel  lien entre la reussite et l'environement  social ou ce n'est pas vrai ?  
 
-La table que nous allons utiliser pour mettre en relation les resultats scolaires et l'aspect social est celle décrite un peux plus bas  puisque nous voulons essentiellment nous consacrer à l'aspect familial de l'étudiant et ne prendrons pas en compte des facteurs liées au comportement intreseque des étudiants .
+
 
 3 - Objectif technique
+decrire comment on va montrer lobjeitf d'affaires 
 
-Pour etudier de manière de aprofondie ce business goal nous allons utiliser plusieurs  techniques ques sont  :
-
-Arbre de décision : Nous allons utiliser cette technique  pour classifier des données en fonction de différentes variables afin de déterminer les facteurs les plus importants qui influencent la réussite scolaire des étudiants, tels que la taille de la famille de l'étudiants , le niveau d'éducation des parents etc.
-
-Régression multiple : Cette  technique va nous permettre d'établir une relation linéaire entre une variable dépendante et plusieurs variables indépendantes cela nous permettra de déterminer de maniere plus précise l'impact de différentes variables sur la réussite scolaire des étudiants .
-
-Régression logistique : Enfin , nous etudierons une regression logistique pour modéliser la probabilité d'un événement binaire en fonction de variables explicatives.
-Cela nous permettra de éterminer la probabilité qu'un étudiant réussisse ou échoue en fonction de son environnement social et des autres variables pertinentes.
-
-Dans chaque technique, nous utiliserons des outils de visualisation pour représenter graphiquement les résultats et les conclusions de notre analyse. 
-Les arbres de décision seront visualisés sous forme d'arbre.Nous visualiserons les régressions multiples sous forme de graphiques de dispersion et les régressions logistiques sous forme de graphiques de courbes ROC ou de matrices de confusion.
+methode etc (UTILISER CELLE DU COURS )
+-Extraction des données que noous allons utiliser dans notre étude .
 
 
+Classification :
+https://veroniquetremblay.github.io/analyse_de_donnees_et_apprentissage_statistique_en_R/arbres-et-forets-aleatoires.html
+
+
+
+La table que nous allons utiliser pour mettre en relation les resultats scolaires et l'aspect social :
 
 ```{r}
 student <- student %>% select(address,famsize,Pstatus,Medu,Fedu,Mjob,Fjob,reason,
                               guardian,traveltime,famsup,nursery,famrel,G1,G2,G3)
 student <- student %>%mutate(mean_grade = (G1+G2+2*G3)/4)
-student <- student %>%mutate(G1 = NULL,G2 = NULL,G3 = NULL,mean_grade = mean_grade >= 10)
+student <- student %>%mutate(G1 = NULL,G2 = NULL,G3 = NULL,mean_grade = as.integer(mean_grade >= 10))
 student <- student %>% mutate_all(as.factor)
 ```
 
-Extraction des données qye nous utiliserons pour notre étude.
-
-
-
-
-
-
-
-
-
-
-
-
-###KAGGLE 2 
 Séparation des données :
-
-Classification :
-https://veroniquetremblay.github.io/analyse_de_donnees_et_apprentissage_statistique_en_R/arbres-et-forets-aleatoires.html
 
 ```{r}
 split <- initial_split(student, prop = .7, strata = "mean_grade")
@@ -424,28 +220,37 @@ train <- training(split)
 test  <- testing(split)
 ```
 
-Création de l'arbre :
 
 ```{r}
-# Choisir les hyperparamètres
-hp <- ctree_control(minsplit = 2, #L'effectif minimal pour séparer un noeud 
-                     minbucket = 1, # L'effectif minimal dans chaque noeud terminal
-                     maxdepth = 70, # Hauteur (profondeur) maximale de l'arbre
-                    mincriterion = 0.05) # 1-p-valeur à partir de laquelle on souhaite cesser la croissance)
-
-# Construire l'arbre
-arbre_ctree <- ctree(mean_grade~., train,control = hp)
-arbre_ctree
+y1 = train$mean_grade
+x = data.matrix(train %>% select(famrel))
+model = glm(formula = y1 ~ x, family = binomial(link = logit))
+summary(model)
 ```
 
-Prediction :
 
 ```{r}
-hat_y <- predict(arbre_ctree, # Le modèle
-                 test)
-hat_y
+#plot(x,y)
+o = order(x)
+logit_ypredit=0.19415*x+0.03977
+y2=exp(logit_ypredit)/(1+ exp(logit_ypredit)) # transfo inverse de logit
+ggplot(data = data.frame(x = x, y = y1, y2 = y2), aes(x = factor(x))) +
+  geom_point(aes(y = y1), color = "red") +
+  geom_point(aes(y = y2), color = "blue") +
+  labs(title = "Scatter Plot", x = "X", y = "Y")
+```
+
+
+
+
+```{r}
+x <- data.matrix(train %>% select(address,famsize,Pstatus,Medu,Fedu,Mjob,Fjob,reason,
+                              guardian,traveltime,famsup,nursery,famrel))
+y <- train$mean_grade
+model <- glm(formula = y ~ x, family = binomial(link = logit))
+summary(model)
 ```
 ```{r}
-sum(hat_y == test$mean_grade)/nrow(test)
+
 ```
 
