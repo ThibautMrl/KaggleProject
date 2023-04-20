@@ -240,10 +240,12 @@ model <- glm(formula = y ~ xtrain, family = binomial(link = logit))
 summary(model)
 ```
 
-
+```{r}
+nrow(xtest)
+```
 
 ```{r}
-pred <- predict(model, newdata = test, type="response")
+pred <- predict(model, newdata = xtest)
 pred
 ```
 
@@ -252,6 +254,14 @@ threshold <- 0.5
 binary_predictions <- ifelse(pred >= threshold, 1, 0)
 binary_predictions
 typeof(binary_predictions)
-
 ```
-
+```{r}
+bin_pred <- as.vector(binary_predictions)
+yt <- as.vector(ytest)
+bin_pred
+yt
+```
+```{r}
+acc <- sum(yt == bin_pred)/length(yt)
+acc
+```
