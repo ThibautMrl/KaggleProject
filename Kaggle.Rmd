@@ -217,40 +217,41 @@ Séparation des données :
 split <- initial_split(student, prop = .7, strata = "mean_grade")
 #echantillonnage stratifié -> même proba de oui et non dans chaque partie
 train <- training(split)
+nrow(train)
 test  <- testing(split)
+nrow(test)
 ```
 
 
 ```{r}
-y1 = train$mean_grade
-x = data.matrix(train %>% select(famrel))
-model = glm(formula = y1 ~ x, family = binomial(link = logit))
-summary(model)
-```
-
-
-```{r}
-#plot(x,y)
-o = order(x)
-logit_ypredit=0.19415*x+0.03977
-y2=exp(logit_ypredit)/(1+ exp(logit_ypredit)) # transfo inverse de logit
-ggplot(data = data.frame(x = x, y = y1, y2 = y2), aes(x = factor(x))) +
-  geom_point(aes(y = y1), color = "red") +
-  geom_point(aes(y = y2), color = "blue") +
-  labs(title = "Scatter Plot", x = "X", y = "Y")
-```
-
-
-
-
-```{r}
-x <- data.matrix(train %>% select(address,famsize,Pstatus,Medu,Fedu,Mjob,Fjob,reason,
+xtrain <- data.matrix(train %>% select(address,famsize,Pstatus,Medu,Fedu,Mjob,Fjob,reason,
                               guardian,traveltime,famsup,nursery,famrel))
+
+xtest <- test %>% select(address,famsize,Pstatus,Medu,Fedu,Mjob,Fjob,reason,
+                              guardian,traveltime,famsup,nursery,famrel)
+
 y <- train$mean_grade
-model <- glm(formula = y ~ x, family = binomial(link = logit))
+
+ytrain <- train %>% select(mean_grade)
+
+ytest <- test %>% select(mean_grade)
+
+model <- glm(formula = y ~ xtrain, family = binomial(link = logit))
 summary(model)
 ```
+
+
+
 ```{r}
+pred <- predict(model, newdata = test, type="response")
+pred
+```
+
+```{r}
+threshold <- 0.5
+binary_predictions <- ifelse(pred >= threshold, 1, 0)
+binary_predictions
+typeof(binary_predictions)
 
 ```
 
