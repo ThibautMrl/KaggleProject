@@ -209,6 +209,7 @@ student <- student %>% select(address,famsize,Pstatus,Medu,Fedu,Mjob,Fjob,reason
 student <- student %>%mutate(mean_grade = (G1+G2+2*G3)/4)
 student <- student %>%mutate(G1 = NULL,G2 = NULL,G3 = NULL,mean_grade = as.integer(mean_grade >= 10))
 student <- student %>% mutate_all(as.factor)
+str(student)
 ```
 
 Séparation des données :
@@ -221,11 +222,22 @@ nrow(train)
 test  <- testing(split)
 nrow(test)
 ```
+```{r}
+# transformer toutes les variables catégorielles en variables binaires
+# utiliser la fonction model.matrix pour convertir les variables catégorielles en variables binaires
+dummies <- model.matrix(~ . - 1, data = train)
+
+# renommer les variables binaires
+colnames(dummies) <- paste(colnames(dummies), sep = "_")
+
+# joindre les variables binaires à la dataframe d'origine
+df <- cbind(train, dummies)
+```
 
 
 ```{r}
-xtrain <- data.matrix(train %>% select(address,famsize,Pstatus,Medu,Fedu,Mjob,Fjob,reason,
-                              guardian,traveltime,famsup,nursery,famrel))
+xtrain <- train %>% select(address,famsize,Pstatus,Medu,Fedu,Mjob,Fjob,reason,
+                              guardian,traveltime,famsup,nursery,famrel)
 
 xtest <- test %>% select(address,famsize,Pstatus,Medu,Fedu,Mjob,Fjob,reason,
                               guardian,traveltime,famsup,nursery,famrel)
@@ -233,22 +245,22 @@ x1 = train$address
 x2 = train$famsize
 x3 = train$Pstatus
 x4 = train$Medu
-x6 = train$Fedu
-x7 = train$Mjob
-x8 = train$Fjob
-x9 = train$reason
-x10 = train$traveltime
-x11 = train$famsup
-x12 =  train$nursery
-x13 = train$famrel
-
+x5 = train$Fedu
+x6 = train$Mjob
+x7 = train$Fjob
+x8 = train$reason
+x9 = train$traveltime
+x10 = train$famsup
+x11 =  train$nursery
+x12 = train$famrel
+#x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9 + x10 + x11 + x12
 y <- train$mean_grade
 
 ytrain <- train %>% select(mean_grade)
 
 ytest <- test %>% select(mean_grade)
 
-model <- glm(formula = y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9 + x10 + x11 + x12 + x13, family = binomial(link = logit))
+model <- glm(formula = y ~ .,data = xtrain, family = binomial(link = logit))
 summary(model)
 ```
 
