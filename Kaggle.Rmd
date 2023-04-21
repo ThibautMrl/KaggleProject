@@ -229,6 +229,18 @@ xtrain <- data.matrix(train %>% select(address,famsize,Pstatus,Medu,Fedu,Mjob,Fj
 
 xtest <- test %>% select(address,famsize,Pstatus,Medu,Fedu,Mjob,Fjob,reason,
                               guardian,traveltime,famsup,nursery,famrel)
+x1 = train$address
+x2 = train$famsize
+x3 = train$Pstatus
+x4 = train$Medu
+x6 = train$Fedu
+x7 = train$Mjob
+x8 = train$Fjob
+x9 = train$reason
+x10 = train$traveltime
+x11 = train$famsup
+x12 =  train$nursery
+x13 = train$famrel
 
 y <- train$mean_grade
 
@@ -236,18 +248,22 @@ ytrain <- train %>% select(mean_grade)
 
 ytest <- test %>% select(mean_grade)
 
-model <- glm(formula = y ~ xtrain, family = binomial(link = logit))
+model <- glm(formula = y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9 + x10 + x11 + x12 + x13, family = binomial(link = logit))
 summary(model)
 ```
 
 ```{r}
 nrow(xtest)
+typeof(xtest)
 ```
 
 ```{r}
-pred <- predict(model, newdata = xtest)
+#pred <- predict(model, newdata = xtest)
+#pred
+pred <- model %>% predict(xtest, type = "response")
 pred
 ```
+
 
 ```{r}
 threshold <- 0.5
@@ -255,13 +271,10 @@ binary_predictions <- ifelse(pred >= threshold, 1, 0)
 binary_predictions
 typeof(binary_predictions)
 ```
+
 ```{r}
 bin_pred <- as.vector(binary_predictions)
 yt <- as.vector(ytest)
 bin_pred
 yt
-```
-```{r}
-acc <- sum(yt == bin_pred)/length(yt)
-acc
 ```
