@@ -1,23 +1,6 @@
 # Kaggle Project
 
 
-#Plan 
-
-Etape 1
-Continuez la DESCRIPTION ANALYSE DU DATA CAR C CE QUI EST DEMANDE POUR LETAPE 1 , ON VERRA ENSUITE POUR LETAPE 2 
-
-#analyse , description du data (mean , variance, fille garcon, etc ) , Blabla sur etude analyse de data,age fille , proportion fille garcon etc mais on ne rentre pas dans le details de ce 
-#que l'on veut faire dans la seconde partie   
-
-Etape 2
-#description des futures analyse (regresion lineaire , )
--choisis les collones voulues (R extraction ) 
--
--
-
-
-QLQ SE RAPELLE DE LA MANIP POUR VERIFIER SI LE DATA EST CONFORME QUE LE RPOF AVAIT DE FAIRE ?
-# 1 On va etudier si notre data base est conforme .
 
 
 M'barek Aissam - Maurel Thibaut - EL Schneider  Lillian - Lucaroni tino MAM4
@@ -27,17 +10,15 @@ Base de donnée choisie : Student Grade Prediction
 
 ```{r}
 student<- read.csv('student-mat.csv')
-
 #install.packages("ggplot2")
 #install.packages("party")
 #install.packages("rsample")
-
 #library(rsample)
-
 library(ggplot2)
 library(dplyr)
 library(party)
 library(rsample)
+
 ```
 2-   Description de la base de données :
 
@@ -87,7 +68,6 @@ On étudie l'age  des fille et des garcons dans la population totale .
 
 ```{r}
 n_student = nrow(student) #nb d'etudiant
-
 age= ggplot(aes(x=age), data=student)+
   geom_histogram(binwidth = 0.50, fill='darkred', color='black')+
   ggtitle("Age of students")
@@ -114,7 +94,6 @@ print("proportion d'étudiant a : Mousinho da Silveira")
 sum(student$school=="MS")/n_student
 print("proportion d'étudiant a Gabriel Pereira : ")
 sum(student$school=="GP")/n_student
-
 ```
 
 
@@ -140,7 +119,6 @@ print("la santé moyenne des étudiants est : "); mean(student$health)
 print("la variance de la santé des étudiants est : "); var(student$health)
 print("la medianne de la santé des étudiants est : "); median(student$health)
 print("Pourcentage d'étudiant en bonne santé");sum(student$health>=3)/n_student
-
 ```
 
 On peut voir que la majorité des étudiants sont en bonne santé .
@@ -190,31 +168,186 @@ Les questions qui ressortents de cette objectifs et auqeuls nous répondrons son
 
 
 3 - Objectif technique
-decrire comment on va montrer lobjeitf d'affaires 
 
-methode etc (UTILISER CELLE DU COURS )
--Extraction des données que noous allons utiliser dans notre étude .
+Notre business goal est de comprendre l'impact de l'environnement social sur les résultats scolaires des étudiants et leur avenir professionnel.  Pour répondre à cette  questions, nous  avons  identifié plusieurs méthodes .
 
+Dans un premier temps  nous  utiliserons  la régression linéaire multiple  afin de l'utilisée pour modéliser la relation entre une variable continue, appelée variable dépendante ou cible, et une ou plusieurs variables continues ou catégorielles, appelées variables indépendantes ou explicatives. Dans votre cas, la variable dépendante pourrait être les notes scolaires des étudiants G3 , et les variables indépendantes pourraient être des caractéristiques de leur environnement social, telles que le revenu familial, le niveau d'éducation des parents, etc. La régression linéaire permet d'estimer les coefficients qui quantifient l'effet de chaque variable indépendante sur la variable dépendante, ainsi que l'importance globale de ces variables dans la prédiction de la variable dépendante.
+Effectivement, une fois que nous aurons construit notre modèle de régression linéaire multiple, nous pouvons l'utiliser pour prédire la valeur de la variable dépendante (dans notre cas, les résultats scolaires). Cela signifie que nous pouvons estimer la valeur des résultats scolaires en fonction des valeurs de nos variables indépendantes (par exemple, l'environnement familial, le niveau de revenu, la profession des parents, etc.) et donc avoir une premiere avance dans nos resultats . 
 
-Classification :
-https://veroniquetremblay.github.io/analyse_de_donnees_et_apprentissage_statistique_en_R/arbres-et-forets-aleatoires.html
-
+Dans un second temps , nous utiliserons la régression logistique, quant à elle, est utilisée pour modéliser la relation entre une variable binaire, appelée variable dépendante ou cible, et une ou plusieurs variables continues ou catégorielles, appelées variables indépendantes ou explicatives. Dans votre cas, la variable dépendante pourrait être le fait qu'un étudiant réussisse ou échoue, et les variables indépendantes pourraient être les mêmes caractéristiques de leur environnement social que celles utilisées dans la régression linéaire. La régression logistique permet d'estimer les coefficients qui quantifient l'effet de chaque variable indépendante sur la probabilité de réussite ou d'échec des étudiants.
 
 
-La table que nous allons utiliser pour mettre en relation les resultats scolaires et l'aspect social :
+La régression linéaire et la régression logistique peuvent toutes deux être utiles pour mettre en lumière votre business goal, car elles vous permettent de quantifier l'effet des variables d'environnement social sur les résultats scolaires et l'avenir professionnel des étudiants. En utilisant ces méthodes, vous pouvez déterminer quelles variables sont les plus importantes pour prédire les résultats scolaires et l'avenir professionnel des étudiants, et quelles variables sont moins importantes. Vous pouvez également déterminer comment ces variables interagissent les unes avec les autres pour influencer les résultats scolaires et l'avenir professionnel des étudiants.
+
+En résumé, la régression linéaire et la régression logistique sont deux méthodes statistiques puissantes que vous pouvez utiliser pour mieux comprendre l'impact de l'environnement social sur les résultats scolaires et l'avenir professionnel des étudiants, et ainsi contribuer à l'amélioration de l'égalité des chances et de la justice sociale.
+
+
+1 Regression Multiple 
+
+Tout d'abord, nous allons coder toutes nos caractéristiques catégoriques puisque l'algorithme de régression doit lire les chiffres et non les mots.
+```{r}
+student
+```
 
 ```{r}
+student 
+student$age = as.numeric(student$age)
+student$Fedu = as.numeric(student$Fedu)
+student$Medu = as.numeric(student$Medu)
+student$traveltime = as.numeric(student$traveltime)
+student$absences = as.numeric(student$absences)
+student$famrel = as.numeric(student$famrel)
+student
+
+```
+
+Nous allons maintenant passer à la prédiction de la note finale G3 en utilisant la régression.
+    Il passera par 4 étapes :
+    1) Partitionnement des données
+    2) Entraînement du modèle
+    3) Prédire les données de test
+    4) Évaluation du modèle
+
+
+1- Partition : Diviser pour former et tester
+
+Nous commençons par diviser nos données en données de train et de test
+
+```{r}
+install.packages("caret")
+library(caret)
+```
+
+```{r}
+set.seed(1234)
+partition = createDataPartition(student[,'G3'], times=1, p=0.70, list=FALSE)
+training=student[partition,]
+dim(training)
+test= student[-partition,]
+dim(test)
+
+```
+
+Nous avons donc 279 données entraînées et 116 testeront les données
+
+
+
+
+2- Construire le modèle de régression linéaire
+
+Former le modèle sur les données du train
+
+Nous créons notre formule, cible pour prédire les variables G3+ avec lesquelles entraîner les modèles.
+
+```{r}
+
+lin_mod=lm(G3~G1+G2+Fedu+Medu+famrel, data=training)
+lin_mod
+y=-2.35017+student$G1*0.09577+student$G2*0.99824-0.08357*student$Fedu+0.18541*student$Medu+student$famrel*0.19272
+
+```
+
+3- Prédire les valeurs des données de test:
+
+
+Nous prédisons les données de test avec le modèle linéaire formé sur les données d'entraînement
+```{r}
+pred_test <- predict(lin_mod, test)
+pred_test
+```
+
+4- Évaluation du modèle
+
+La mesure que nous utiliserons dans cette évaluation est le MAE. Les performances de nos modèles sont bonnes si la valeur MAE est faible. Nous voulons donc une faible valeur MAE.
+
+Erreur absolue moyenne (MAE) : MAE mesure l'ampleur moyenne des erreurs dans un ensemble de prédictions, sans tenir compte de leur direction. C'est la moyenne sur l'échantillon de test des différences absolues entre la prédiction et l'observation réelle où toutes les différences individuelles ont un poids égal.
+```{r}
+cat("Test MAE:", round(mean(abs(pred_test-test$G3)),6))
+
+```
+
+Voyons si notre modèle est overfit en calculant le MAE d'entraînement et en le comparant au MAE de test.
+
+```{r}
+pred_train <-predict(lin_mod, training)
+
+pred_train
+```
+
+```{r}
+cat("Train MAE:", round(mean(abs(pred_train-training$G3)),6))
+
+```
+
+Le train et le test MAE sont presque similaires, donc notre modèle n'a pas été overfit 
+
+D'après l'évaluation du modèle, la valeur MAE est faible, de sorte que notre modèle fonctionne bien.
+
+
+
+```{r}
+dt_prediction = (data.frame((pred_test), (test$G3)))
+
+colnames(dt_prediction) <- c("Predicted G3","Real G3")
+head(dt_prediction,10)
+```
+
+En comparant notre G3 prédit avec le G3 réel, nous pouvons remarquer à quel point nos prédictions étaient proches avec un très faible pourcentage d'erreur.
+
+
+5- Prediction 
+```{r}
+
+
+y=-2.35017+student$G1*0.09577+student$G2*0.99824-0.08357*student$Fedu+0.18541*student$Medu+student$famrel*0.19272
+
+c=seq(1:4)
+d=seq(1:2)
+-2.35017+10*0.09577+10*0.99824-0.08357*c+0.18541*c+c*0.19272
+
+
+plot(c,-2.35017+10*0.09577+10*0.99824-0.08357*c+0.18541*c+c*0.19272,main="Influences des parents ",
+        xlab="Education",
+        ylab="G3",)
+
+
+ggplot(student, aes(x = Fedu, y = Medu)) +
+    geom_point(aes(color = "G3")) +
+    stat_smooth(method = "lm",
+        col = "#C42126",
+        se = FALSE,
+        size = 1)
+
+```
+Graphiquement , on voit que pour un meme profil , meme note mais des parents d'Education differente on obtient des notes qui peuvent differer de 1 point .
+
+
+
+
+2 éme Partie :Regression logistique
+
+
+```{r}
+#Choix de notre Data-Base
+
 student <- student %>% select(address,famsize,Pstatus,Medu,Fedu,Mjob,Fjob,reason,
                               guardian,traveltime,famsup,nursery,famrel,G1,G2,G3)
 student <- student %>%mutate(mean_grade = (G1+G2+2*G3)/4)
 student <- student %>%mutate(G1 = NULL,G2 = NULL,G3 = NULL,mean_grade = as.integer(mean_grade >= 10))
 student <- student %>% mutate_all(as.factor)
+student <- student %>% mutate_all(as.integer)
+student <- student %>%mutate(mean_grade = as.factor(mean_grade))
 str(student)
+
 ```
+
+
 
 Séparation des données :
 
+
 ```{r}
+
 split <- initial_split(student, prop = .7, strata = "mean_grade")
 #echantillonnage stratifié -> même proba de oui et non dans chaque partie
 train <- training(split)
@@ -222,71 +355,50 @@ nrow(train)
 test  <- testing(split)
 nrow(test)
 ```
+
+
+
+
+
 ```{r}
-# transformer toutes les variables catégorielles en variables binaires
-# utiliser la fonction model.matrix pour convertir les variables catégorielles en variables binaires
-dummies <- model.matrix(~ . - 1, data = train)
+fitControl <- trainControl(method = "cv", number = 10, savePredictions = TRUE) 
+# Paramètre du modele
 
-# renommer les variables binaires
-colnames(dummies) <- paste(colnames(dummies), sep = "_")
+lr_model <- train(mean_grade ~ .,
+                  data = train,
+                  method = 'glm',
+                  family = binomial(),
+                  trControl = fitControl)
+summary(lr_model)
+```
 
-# joindre les variables binaires à la dataframe d'origine
-df <- cbind(train, dummies)
+
+
+
+```{r}
+#On predit nos valeurs 
+
+prediction_lr <- predict(lr_model, test)
+prediction_lr
 ```
 
 
 ```{r}
-xtrain <- train %>% select(address,famsize,Pstatus,Medu,Fedu,Mjob,Fjob,reason,
-                              guardian,traveltime,famsup,nursery,famrel)
-
-xtest <- test %>% select(address,famsize,Pstatus,Medu,Fedu,Mjob,Fjob,reason,
-                              guardian,traveltime,famsup,nursery,famrel)
-x1 = train$address
-x2 = train$famsize
-x3 = train$Pstatus
-x4 = train$Medu
-x5 = train$Fedu
-x6 = train$Mjob
-x7 = train$Fjob
-x8 = train$reason
-x9 = train$traveltime
-x10 = train$famsup
-x11 =  train$nursery
-x12 = train$famrel
-#x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9 + x10 + x11 + x12
-y <- train$mean_grade
-
-ytrain <- train %>% select(mean_grade)
-
-ytest <- test %>% select(mean_grade)
-
-model <- glm(formula = y ~ .,data = xtrain, family = binomial(link = logit))
-summary(model)
-```
-
-```{r}
-nrow(xtest)
-typeof(xtest)
-```
-
-```{r}
-#pred <- predict(model, newdata = xtest)
-#pred
-pred <- model %>% predict(xtest, type = "response")
-pred
+#O teste ici la precision 
+test$Prediction <- prediction_lr
+acc = sum(test$Prediction == test$mean_grade)/nrow(test)
+acc
 ```
 
 
-```{r}
-threshold <- 0.5
-binary_predictions <- ifelse(pred >= threshold, 1, 0)
-binary_predictions
-typeof(binary_predictions)
-```
 
-```{r}
-bin_pred <- as.vector(binary_predictions)
-yt <- as.vector(ytest)
-bin_pred
-yt
-```
+
+
+
+
+
+
+
+
+
+
