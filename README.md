@@ -1,38 +1,36 @@
 # KaggleProject
 
-2- Objectifs d’affaires
+1- Business objectives
 
-Le projet que nous  avons  entrepris vise à étudier en profondeur l'impact que notre environnement social à sur les résultats scolaires, et en fin de compte, sur notre avenir professionnel. 
-Cette question est d'une importance cruciale pour notre société car elle touche directement à l'égalité des chances et à la justice sociale.
+The project we have undertaken aims to study in depth the impact that our social environment has on educational outcomes, and ultimately, on our professional future. 
+This issue is of crucial importance for our society as it directly affects equal opportunities and social justice.
 
-En effet, il est bien connu que les inégalités sociales ont un impact significatif sur la réussite scolaire. Les élèves issus de milieux défavorisés ont souvent moins accès aux ressources pédagogiques et aux opportunités éducatives que les élèves des milieux favorisés. Ils peuvent également être confrontés à des défis sociaux et émotionnels qui peuvent nuire à leur performance académique.
+Indeed, it is well known that social inequalities have a significant impact on educational success. Pupils from disadvantaged backgrounds often have less access to educational resources and opportunities than pupils from privileged backgrounds. They may also face social and emotional challenges that can affect their academic performance.
 
-Notre objectif est ici d'améliorer l'avenir professionnel des élèves en leur donnant les outils dont ils ont besoin pour réussir à l'école et dans leur vie professionnelle. 
+Our goal here is to improve students' professional futures by giving them the tools they need to succeed in school and in their professional lives. 
 
-Nous nous concentrerons uniquement sur les attributs liés à l'environnement familial de l'étudiant et ne prendrons pas en compte des facteurs liées au comportement intreseque des étudiants .
+We will focus only on attributes related to the student's home environment and will not consider factors related to students' intrinsic behaviour.
 
-Les questions qui ressortents de cette objectifs et auquels nous répondrons sont multiples :
+The questions that emerge from this objective and that we will answer are multiple:
 
--Quelles sont les causes principales de résultats insuffisants chez les étudiants ?
--Les étudiants de milieux sociaux différents rencontrent-ils les mêmes difficultés scolaires et sont-ils affectés de la même manière par leur environnement social ?
--Quels sont les traits communs des étudiants qui réussissent leur études (le "MAJOR") et de ceux qui échouent (le "MINOR") ? (Faire le profil type de l'eleve qui reussit (le MAJOR) et de celui qui ne reussit pas (le MINOR))
--Quel est le secteur d’emploi des parents qui touche le plus les éléves qui ne réussisent pas  ?
--Finalement  ,y-a-t-il un réel lien entre la réussite et l'environement  social ou ce n'est pas vrai ? 
-
-
-La table que nous allons utiliser pour mettre en relation les resultats scolaires et l'aspect social est la suivante puisque nous voulons essentiellment nous consacrer à l'aspect familial de l'étudiant et ne prendrons pas en compte des facteurs liées au comportement intreseque des étudiants .
+-What are the main causes of underachievement among students?
+-Do students from different social backgrounds experience the same academic difficulties and are they affected in the same way by their social environment?
+-What are the common features of successful students (the "MAJOR") and unsuccessful students (the "MINOR")? (Make a typical profile of the successful student (the MAJOR) and the unsuccessful one (the MINOR))
+-What is the sector of employment of parents that most affects underachieving students?
+-Finally, is there a real link between success and social environment or is it not true? 
 
 
-3 - Objectif technique
+The table we will use to relate academic achievement to social background is as follows, since we want to focus on the family background of the student and will not take into account factors related to the internal behaviour of students.
 
-Pour etudier de manière de aprofondie ce business goal nous allons utiliser plusieurs  techniques ques sont  :
 
-Arbre de décision : Nous allons utiliser cette technique  pour classifier des données en fonction de différentes variables afin de déterminer les facteurs les plus importants qui influencent la réussite scolaire des étudiants, tels que la taille de la famille de l'étudiants , le niveau d'éducation des parents etc.
+2 - Technical goal
 
-Régression multiple : Cette  technique va nous permettre d'établir une relation linéaire entre une variable dépendante et plusieurs variables indépendantes cela nous permettra de déterminer de maniere plus précise l'impact de différentes variables sur la réussite scolaire des étudiants .
+In order to study this business goal in depth we will use several techniques:
 
-Régression logistique : Enfin , nous etudierons une regression logistique pour modéliser la probabilité d'un événement binaire en fonction de variables explicatives.
-Cela nous permettra de éterminer la probabilité qu'un étudiant réussisse ou échoue en fonction de son environnement social et des autres variables pertinentes.
+Multiple regression: This technique will allow us to establish a linear relationship between a dependent variable and several independent variables. This will allow us to determine more precisely the impact of different variables on the academic success of students.
 
-Dans chaque technique, nous utiliserons des outils de visualisation pour représenter graphiquement les résultats et les conclusions de notre analyse. 
-Les arbres de décision seront visualisés sous forme d'arbre.Nous visualiserons les régressions multiples sous forme de graphiques de dispersion et les régressions logistiques sous forme de graphiques de courbes ROC ou de matrices de confusion.
+Logistic regression: Finally, we will study a logistic regression to model the probability of a binary event as a function of explanatory variables.
+This will allow us to determine the probability of a student passing or failing as a function of their social environment and other relevant variables.
+
+In each technique, we will use visualisation tools to graphically represent the results and conclusions of our analysis. 
+Multiple regressions as scatter plots and logistic regressions as ROC curves or confusion matrices.
